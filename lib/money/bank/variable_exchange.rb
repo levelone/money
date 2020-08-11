@@ -71,7 +71,8 @@ class Money
 
       def marshal_load(arr)
         store_info = arr[0]
-        @store = store_info.shift.new(*store_info)
+        @store = store_info.shift.new(*store_info) rescue nil
+        @store ||= store_info.shift.new
         @rounding_method = arr[1]
       end
 
