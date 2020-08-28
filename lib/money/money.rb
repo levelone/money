@@ -180,25 +180,27 @@ class Money
   end
 
   def self.setup_defaults
+    # To prevent warnings from showing when running tests related to money in other gems
+    # As long as there are no plans of upgrading versions, this should be okay..
+
+    # @use_i18n = true
+    # @using_deprecated_default_currency = true
+    # @using_deprecated_default_rounding_mode = true
+
     # Set the default bank for creating new +Money+ objects.
     self.default_bank = Bank::VariableExchange.instance
 
     # Set the default currency for creating new +Money+ object.
     self.default_currency = Currency.new("USD")
-    @using_deprecated_default_currency = true
-
-    # Default to using i18n
-    @use_i18n = true
 
     # Default to using legacy locale backend
-    self.locale_backend = :legacy
+    self.locale_backend = :i18n
 
     # Default to not using infinite precision cents
     self.infinite_precision = false
 
     # Default to bankers rounding
-    self.rounding_mode = BigDecimal::ROUND_HALF_EVEN
-    @using_deprecated_default_rounding_mode = true
+    self.rounding_mode = BigDecimal::ROUND_HALF_UP
 
     # Default the conversion of Rationals precision to 16
     self.conversion_precision = 16
